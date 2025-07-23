@@ -1,9 +1,5 @@
 export interface ExtractedReport {
-  summary: {
-    totalGoals: number;
-    totalBMPs: number;
-    completionRate: number;
-  };
+  summary: { totalGoals: number; totalBMPs: number; completionRate: number };
   goals: Goal[];
   bmps: BMP[];
   implementation: ImplementationActivity[];
@@ -15,37 +11,51 @@ export interface ExtractedReport {
 export interface Goal {
   id: string;
   title: string;
-  description: string;
+  description?: string;
+  targetValue?: number;
+  targetUnit?: string;
 }
 
 export interface BMP {
   id: string;
   name: string;
-  description: string;
+  description?: string;
+  unit?: string;
+  planned?: number;
+  completed?: number;
 }
 
 export interface ImplementationActivity {
   id: string;
-  activity: string;
-  responsibleParty?: string;
-  timeline?: string;
+  description: string;
+  startDate?: string;
+  endDate?: string;
+  status?: string;
 }
 
 export interface MonitoringMetric {
   id: string;
   metric: string;
-  targetValue?: string;
+  value?: number;
+  unit?: string;
+  location?: string;
+  frequency?: string;
 }
 
 export interface OutreachActivity {
   id: string;
-  type: string;
-  audience: string;
-  description: string;
+  audience?: string;
+  activity: string;
+  count?: number;
+  notes?: string;
 }
 
 export interface GeographicArea {
   id: string;
   name: string;
-  description?: string;
+  county?: string;
+  state?: string;
+  lat?: number;
+  lon?: number;
+  notes?: string;
 }
