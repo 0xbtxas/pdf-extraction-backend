@@ -1,7 +1,7 @@
 import express, { type Request, Response } from "express";
 import multer from "multer";
 import { parsePDFBuffer } from "../services/pdfService";
-import { extractStructuredData } from "../services/llmService";
+import { extractStructuredData, extractStructuredDataClaude } from "../services/llmService";
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -16,7 +16,17 @@ router.post(
       }
 
       const rawText = await parsePDFBuffer(req.file.buffer);
-      const structuredData = await extractStructuredData(rawText);
+
+      const provider = req.query.provider || "openai";
+
+      let structuredData;
+
+      if (provider === "claude") {
+        structuredData = await extractStructuredDataClaude(rawText);
+      } else {
+        structuredData = await extractStructuredData(rawText);
+      }
+
       res.json(structuredData);
     } catch (err: any) {
       console.error("Extraction error:", err);
